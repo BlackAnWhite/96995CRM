@@ -1,7 +1,5 @@
 
-
-# iView Admin
-
+# 新疆烟感报警平台
 
 
 ## Install
