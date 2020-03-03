@@ -63,14 +63,14 @@ export default [
     name: 'company',
     meta: {
       title: '烟感企业管理',
-      icon: 'ios-book'
+      icon: 'ios-browsers'
     },
     component: Main,
     children: [{
       path: 'companyPage',
       name: 'companyPage',
       meta: {
-        icon: 'md-funnel',
+        icon: 'ios-browsers',
         title: '烟感企业管理'
       },
       component: () => import('@/view/my-page/company.vue')
@@ -81,14 +81,14 @@ export default [
     name: 'equipment',
     meta: {
       title: '烟感设备管理',
-      icon: 'ios-book'
+      icon: 'ios-apps'
     },
     component: Main,
     children:[{
         path: 'equipmentPage',
         name: 'equipmentPage',
         meta: {
-          icon: 'md-funnel',
+          icon: 'md-apps',
           title: '烟感设备管理'
         },
         component: () => import('@/view/my-page/equipment.vue')
@@ -99,14 +99,14 @@ export default [
     name: 'history',
     meta: {
       title: '报警历史查询',
-      icon: 'ios-book'
+      icon: 'md-analytics'
     },
     component: Main,
     children: [{
       path: 'historyPage',
       name: 'historyPage',
       meta: {
-        icon: 'md-funnel',
+        icon: 'md-analytics',
         title: '报警历史查询'
       },
       component: () => import('@/view/my-page/history.vue')

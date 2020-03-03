@@ -1,12 +1,17 @@
 import axios from '@/libs/api.request'
 
-export const login = ({ userName, password }) => {
+export const login = ({ username, password }) => {
   const data = {
-    userName,
+    username,
     password
   }
   return axios.request({
-    url: 'login',
+    url: 'user/login',
+    headers: {
+      // isToken: false
+      // 'TENANT_ID': '1',
+      // 'Authorization': 'Basic cGlnOnBpZw=='
+    },
     data,
     method: 'post'
   })
@@ -14,10 +19,10 @@ export const login = ({ userName, password }) => {
 
 export const getUserInfo = (token) => {
   return axios.request({
-    url: 'get_info',
-    params: {
-      token
-    },
+    url: 'user/info',
+    // params: {
+    //   token
+    // },
     method: 'get'
   })
 }
