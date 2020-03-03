@@ -1,7 +1,7 @@
 const list = {
   development: {
-    API_BASE: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/'
-    // API_BASE: ''
+    // API_BASE: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/'
+    API_BASE: 'http://172.18.240.185:8088/fireSensor/'
   },
   production: {
     pro : {
@@ -14,7 +14,7 @@ export default {
   /**
    * @description token在Cookie中存储的天数，默认1天
    */
-  cookieExpires: 1,
+  cookieExpires: 0,
   /**
    * @description 是否使用国际化，默认为false
    *              如果不使用，则需要在路由中给需要在菜单中展示的路由设置meta: {title: 'xxx'}

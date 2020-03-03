@@ -3,11 +3,12 @@ import { setToken, getToken } from '@/libs/util'
 
 export default {
   state: {
-    userName: '',
+    username: '',
     userId: '',
     avatorImgPath: '',
     token: getToken(),
     access: '',
+    userInfo: {},
     hasGetInfo: false
   },
   mutations: {
@@ -18,7 +19,7 @@ export default {
       state.userId = id
     },
     setUserName (state, name) {
-      state.userName = name
+      state.username = name
     },
     setAccess (state, access) {
       state.access = access
@@ -27,21 +28,24 @@ export default {
       state.token = token
       setToken(token)
     },
+    setUserInfo (state, userInfo) {
+      state.userInfo = userInfo
+    },
     setHasGetInfo (state, status) {
       state.hasGetInfo = status
     }
   },
   actions: {
     // 登录
-    handleLogin ({ commit }, {userName, password}) {
-      userName = userName.trim()
+    handleLogin ({ commit }, {username, password}) {
+      username = username.trim()
       return new Promise((resolve, reject) => {
         login({
-          userName,
+          username,
           password
         }).then(res => {
           const data = res.data
-          commit('setToken', data.token)
+          commit("setToken", data.access_token);
           resolve()
         }).catch(err => {
           reject(err)
@@ -68,12 +72,13 @@ export default {
     getUserInfo ({ state, commit }) {
       return new Promise((resolve, reject) => {
         try {
-          getUserInfo(state.token).then(res => {
-            const data = res.data
-            commit('setAvator', data.avator)
-            commit('setUserName', data.name)
-            commit('setUserId', data.user_id)
-            commit('setAccess', data.access)
+          getUserInfo().then(res => {
+            const data = res.data.user
+            commit('setAvator', data.avatar || '')
+            commit('setUserName', data.username)
+            commit('setUserId', data.userId)
+            commit('setAccess', data.access || [] )
+            commit("setUserInfo", data);
             commit('setHasGetInfo', true)
             resolve(data)
           }).catch(err => {

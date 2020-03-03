@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 // import { Spin } from 'iview'
+import { Message } from 'iview'
 const addErrorLog = errorInfo => {
   const { statusText, status, request: { responseURL } } = errorInfo
   let info = {
@@ -20,6 +21,8 @@ class HttpRequest {
   getInsideConfig () {
     const config = {
       baseURL: this.baseUrl,
+      timeout: 1000*30,
+      withCredentials: true,
       headers: {
         //
       }
@@ -35,6 +38,12 @@ class HttpRequest {
   interceptors (instance, url) {
     // 请求拦截
     instance.interceptors.request.use(config => {
+      //请求头中添加token
+      const isToken = (config.headers || {}).isToken === false
+      let token = store.state.user.token
+      if (token && !isToken) {
+        config.headers['Authorization'] = 'Bearer ' + token // token
+      }
       // 添加全局的loading...
       if (!Object.keys(this.queue).length) {
         // Spin.show() // 不建议开启，因为界面不友好
@@ -48,7 +57,13 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       this.destroy(url)
       const { data, status } = res
-      return { data, status }
+      if (data.code !== 0) {
+        Message.error(data.msg)
+        return Promise.reject(error)
+      } else {
+        return { data, status }
+      }
+
     }, error => {
       this.destroy(url)
       addErrorLog(error.response)
