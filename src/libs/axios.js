@@ -59,14 +59,14 @@ class HttpRequest {
       const { data, status } = res
       if (data.code !== 0) {
         Message.error(data.msg)
-        return Promise.reject(error)
+        return Promise.reject(data)
       } else {
         return { data, status }
       }
 
     }, error => {
       this.destroy(url)
-      addErrorLog(error.response)
+      // addErrorLog(error.response)
       return Promise.reject(error)
     })
   }

@@ -5,12 +5,19 @@
         <Row :gutter='16'>
           <Col :span='8'>
             <FormItem prop="companyName" label='烟感企业名称'>
-              <Select clearable filterable transfer v-model="searchForm.companyName">
+              <Select clearable filterable transfer v-model="searchForm.companyName" @on-change="getDeviceName">
                 <Option v-for="(item,index) in companySelects" :value="item.value" :key='index'> {{ item.label }} </Option>
               </Select>
             </FormItem>
           </Col>
-          <Col :span='2' :offset='12'>
+          <Col :span='8'>
+            <FormItem prop="deviceName" label='烟感设备名称'>
+              <Select clearable filterable transfer v-model="searchForm.deviceName">
+                <Option v-for="(item,index) in deviceSelects" :value="item.value" :key='index'> {{ item.label }} </Option>
+              </Select>
+            </FormItem>
+          </Col>
+          <Col :span='2' :offset='4'>
             <Button type="primary" @click="handleSearch()">查  询</Button>
           </Col>
           <Col :span='2'>
@@ -27,9 +34,14 @@
         <Row>
           <Col :span='24'>
             <FormItem prop="companyName" label='企业名称'>
-              <Input v-model="addForm.companyName" :maxlength='20'></Input>
+              <Select clearable filterable transfer v-model="addForm.companyName">
+                <Option v-for="(item,index) in companySelects" :value="item.value" :key='index'> {{ item.label }} </Option>
+              </Select>
             </FormItem>
-            <FormItem prop="address" label='企业地址'>
+            <FormItem prop="deviceName" label='设备名称'>
+              <Input v-model="addForm.deviceName" :maxlength='20'></Input>
+            </FormItem>
+            <FormItem prop="address" label='安装地址'>
               <Input v-model="addForm.address" :maxlength='20'></Input>
             </FormItem>
             <FormItem prop="describe" label='备注'>
@@ -45,7 +57,12 @@
         <Row>
           <Col :span='24'>
             <FormItem prop="companyName" label='企业名称'>
-              <Input v-model="editForm.companyName" :maxlength='20'></Input>
+              <Select clearable filterable transfer v-model="editForm.companyName">
+                <Option v-for="(item,index) in companySelects" :value="item.value" :key='index'> {{ item.label }} </Option>
+              </Select>
+            </FormItem>
+            <FormItem prop="deviceName" label='设备名称'>
+              <Input v-model="editForm.deviceName" :maxlength='20'></Input>
             </FormItem>
             <FormItem prop="address" label='企业地址'>
               <Input v-model="editForm.address" :maxlength='20'></Input>
@@ -62,10 +79,11 @@
 </template>
 
 <script>
-import { getCompany , getData , addObj , updateObj , delObj } from '@/api/company.js'
+import { getCompany } from '@/api/company.js'
+import { getDevice , getData , addObj , updateObj , delObj } from '@/api/device.js'
 import { mapMutations } from 'vuex'
 export default {
-  name: 'company_page',
+  name: 'device_page',
   components: {
     // Tables
   },
@@ -87,8 +105,11 @@ export default {
         deviceName:''
       },
       addRules: {
-        companyName: [
+        deviceName: [
           { required: true, message: '此项必填', trigger: 'blur' }
+        ],
+        companyName: [
+          { required: true, message: '此项必选', trigger: 'change' }
         ],
         address: [
           { required: true, message: '此项必填', trigger: 'blur' }
@@ -98,6 +119,7 @@ export default {
         ]     
       },
       companySelects: [],
+      deviceSelects: [],
       page: {
         total: 0,
         page: 1,
@@ -113,17 +135,21 @@ export default {
             width: 64
         },
         {
-            title: '企业编号',
-            key: 'companyCode',
+            title: '设备编号',
+            key: 'deviceCode',
             tooltip: true
         },
         {
-            title: '企业名称',
+            title: '设备名称',
+            key: 'deviceName',
+            tooltip: true
+        },
+        {
+            title: '所属企业',
             key: 'companyName',
             tooltip: true
-        },
-        {
-            title: '企业地址',
+        },                {
+            title: '安装地址',
             key: 'address',
             tooltip: true
         },
@@ -145,20 +171,20 @@ export default {
             align: 'left',
             render: (h, params) => {
                 return h('div', [
-                    h('Button', {
-                        props: {
-                            type: 'primary',
-                            size: 'small'
-                        },
-                        style: {
-                            marginRight: '5px'
-                        },
-                        on: {
-                            click: () => {
-                                this.goTo(params.row)
-                            }
-                        }
-                    }, '详情'),
+                    // h('Button', {
+                    //     props: {
+                    //         type: 'primary',
+                    //         size: 'small'
+                    //     },
+                    //     style: {
+                    //         marginRight: '5px'
+                    //     },
+                    //     on: {
+                    //         click: () => {
+                    //             this.goTo(params.row)
+                    //         }
+                    //     }
+                    // }, '详情'),
                     h('Button', {
                         props: {
                             type: 'primary',
@@ -197,7 +223,8 @@ export default {
     getCompany().then( res => {
       let data = res.data
       this.companySelects = data.data
-    })
+    })    
+    this.getDeviceName()
     this.handleSearch()
   },
   computed: {
@@ -220,6 +247,16 @@ export default {
           } else {
             this.$Message.error('请正确填写表单!');
           }
+      })
+    },
+    getDeviceName(name) {
+      let params = {
+        companyName: name || ''
+      }
+      getDevice(params).then( res => {
+        this.searchForm.deviceName = ''
+        let data = res.data
+        this.deviceSelects = data.data
       })
     },
     handleAdd() {
@@ -263,9 +300,9 @@ export default {
         case 'deleteModal':
             this.$Modal.confirm({
               title: '删除',
-              content: `<p>您将要删除企业 <i>${data.companyName}</i>,请谨慎操作！</p>`,
+              content: `<p>您将要删除设备 <i>${data.deviceName}</i>,请谨慎操作！</p>`,
               onOk: () => {
-                  this.handleDelete(data.companyCode)
+                  this.handleDelete(data.deviceCode)
               },
               onCancel: () => {
                   this.deleteModal = false

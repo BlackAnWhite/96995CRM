@@ -52,7 +52,7 @@ export default {
     return {
       loading: false,
       form: {
-        username: 'admin',
+        username: '',
         password: ''
       }
     }

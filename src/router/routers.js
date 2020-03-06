@@ -53,8 +53,8 @@ export default [
   //   path: '',
   //   name: 'doc',
   //   meta: {
-  //     title: '文档',
-  //     href: 'https://lison16.github.io/iview-admin-doc/#/',
+  //     title: '外部连接',
+  //     href: 'www.baidu.com',
   //     icon: 'ios-book'
   //   }
   // },
@@ -62,13 +62,14 @@ export default [
     path: '/company',
     name: 'company',
     meta: {
+      hideInBread: true,
       title: '烟感企业管理',
       icon: 'ios-browsers'
     },
     component: Main,
     children: [{
-      path: 'companyPage',
-      name: 'companyPage',
+      path: 'company_page',
+      name: 'company_page',
       meta: {
         icon: 'ios-browsers',
         title: '烟感企业管理'
@@ -77,34 +78,36 @@ export default [
     }]
   },
   {
-    path: '/equipment',
-    name: 'equipment',
+    path: '/device',
+    name: 'device',
     meta: {
+      hideInBread: true,
       title: '烟感设备管理',
       icon: 'ios-apps'
     },
     component: Main,
     children:[{
-        path: 'equipmentPage',
-        name: 'equipmentPage',
+        path: 'device_page',
+        name: 'device_page',
         meta: {
           icon: 'md-apps',
           title: '烟感设备管理'
         },
-        component: () => import('@/view/my-page/equipment.vue')
+        component: () => import('@/view/my-page/device.vue')
       }]
   },
   {
     path: '/history',
     name: 'history',
+    component: Main,
     meta: {
+      hideInBread: true,
       title: '报警历史查询',
       icon: 'md-analytics'
     },
-    component: Main,
     children: [{
-      path: 'historyPage',
-      name: 'historyPage',
+      path: 'history_page',
+      name: 'history-page',
       meta: {
         icon: 'md-analytics',
         title: '报警历史查询'

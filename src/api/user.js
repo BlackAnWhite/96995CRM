@@ -17,7 +17,7 @@ export const login = ({ username, password }) => {
   })
 }
 
-export const getUserInfo = (token) => {
+export const getUserInfo = () => {
   return axios.request({
     url: 'user/info',
     // params: {
@@ -29,7 +29,7 @@ export const getUserInfo = (token) => {
 
 export const logout = (token) => {
   return axios.request({
-    url: 'logout',
+    url: '/logout',
     method: 'post'
   })
 }

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <Row :gutter="20">
+  <div class="bw-home">
+    <!-- <Row :gutter="20">
       <i-col :xs="12" :md="8" :lg="4" v-for="(infor, i) in inforCardData" :key="`infor-${i}`" style="height: 120px;padding-bottom: 10px;">
         <infor-card shadow :color="infor.color" :icon="infor.icon" :icon-size="36">
           <count-to :end="infor.count" count-class="count-style"/>
@@ -24,7 +24,11 @@
       <Card shadow>
         <example style="height: 310px;"/>
       </Card>
-    </Row>
+    </Row> -->
+    <div class='card'>
+      <h2>{{ username }} ，欢迎登录烟雾管理系统！</h2>
+      <P>今天是 {{today}} {{week}}</P>
+    </div>
   </div>
 </template>
 
@@ -33,6 +37,7 @@ import InforCard from '_c/info-card'
 import CountTo from '_c/count-to'
 import { ChartPie, ChartBar } from '_c/charts'
 import Example from './example.vue'
+import dayjs from 'dayjs'
 export default {
   name: 'home',
   components: {
@@ -72,12 +77,59 @@ export default {
   },
   mounted () {
     //
-  }
+  },
+  computed: {
+    username () {
+      return this.$store.state.user.username
+    },
+    week () {
+      switch(dayjs().day()) {
+        case 0:
+          return '星期日'
+          break
+        case 1:
+          return '星期一'
+          break
+        case 2:
+          return '星期二'
+          break
+        case 3:
+          return '星期三'
+          break
+        case 4:
+          return '星期四'
+          break
+        case 5:
+          return '星期五'
+          break
+        default:
+          return "星期六"
+      }
+    },
+    today() {
+      return  dayjs().format('YYYY年MM月DD日')
+    }
+  },
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+.bw-home {
+  width: 100%;
+  min-height: 100%;
+  padding: 20px;
+}
 .count-style{
   font-size: 50px;
+}
+.card{
+  width: 100%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 4px 4px #eee;
+  p {
+    line-height: 30px;
+  }
 }
 </style>
