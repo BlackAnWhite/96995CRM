@@ -1,14 +1,15 @@
 const list = {
   development: {
     // API_BASE: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/'
-    API_BASE: 'http://172.18.240.185:8088/fireSensor/'
+    API_BASE: ''
+    // API_BASE: 'http://172.18.240.185:8088/fireSensor/'
   },
   production: {
-    pro : {
-      API_BASE: 'https://produce.com'
+    pro: {
+      API_BASE: "https://produce.com"
     }
   }
-}
+};
 let baseUrl = process.env.VUE_APP_ENV ? list[process.env.NODE_ENV][process.env.VUE_APP_ENV] : list[process.env.NODE_ENV]
 export default {
   /**

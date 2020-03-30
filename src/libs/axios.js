@@ -66,7 +66,7 @@ class HttpRequest {
 
     }, error => {
       this.destroy(url)
-      addErrorLog(error.response)
+      // addErrorLog(error.response)
       return Promise.reject(error)
     })
   }

@@ -8,7 +8,7 @@
       <Card icon="log-in" title="欢迎登录" :bordered="false">
         <div class="form-con">
           <login-form @on-success-valid="handleSubmit" :loginLoading='loading'></login-form>
-          <p class="login-tip">烟感管理系统</p>
+          <p class="login-tip">版本：{{version}}</p>
         </div>
       </Card>
     </div>
@@ -17,6 +17,7 @@
 
 <script>
 import LoginForm from '_c/login-form'
+import config from '_../../../package.json'
 import { mapActions } from 'vuex'
 export default {
   components: {
@@ -24,7 +25,8 @@ export default {
   },
   data () {
     return {
-      loading: false
+      loading: false,
+      version: config.version
     }
   },
   methods: {

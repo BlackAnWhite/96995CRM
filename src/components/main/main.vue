@@ -6,8 +6,8 @@
         <div class="logo-con">
           <!-- <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
           <img v-show="collapsed" :src="minLogo" key="min-logo" /> -->
-          <h1 v-show="!collapsed" style="text-align:center;line-hight:64px;color:#2d8cf0">烟感管理系统</h1>
-          <h1 v-show="collapsed" style="text-align:center;line-hight:64px;color:#2d8cf0">烟</h1>
+          <h1 v-show="!collapsed" style="text-align:center;line-hight:64px;color:#2d8cf0">CRM管理系统</h1>
+          <h1 v-show="collapsed" style="text-align:center;line-hight:64px;color:#2d8cf0">CRM</h1>
         </div>
       </side-menu>
     </Sider>
